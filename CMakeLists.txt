@@ -21,7 +21,7 @@ if (POLICY CMP0077)
     cmake_policy(SET CMP0077 NEW)
 endif ()
 
-option(JSON_BuildTests "Build the unit tests when BUILD_TESTING is enabled." ON)
+option(JSON_BuildTests "Build the unit tests when BUILD_TESTING is enabled." OFF)
 option(JSON_Install "Install CMake targets during install step." ON)
 option(JSON_MultipleHeaders "Use non-amalgamated version of the library." OFF)
 option(JSON_ImplicitConversions "Enable implicit conversions." ON)
@@ -53,6 +53,18 @@ endif()
 if (NOT JSON_ImplicitConversions)
     message(STATUS "Implicit conversions are disabled")
 endif()
+
+## CATKIN
+find_package(catkin REQUIRED)
+
+catkin_package(
+  INCLUDE_DIRS single_include
+)
+
+include_directories(
+  single_include
+  ${catkin_INCLUDE_DIRS}
+)
 
 ##
 ## TARGET
@@ -126,6 +138,22 @@ configure_file(
     ${NLOHMANN_JSON_CMAKE_PROJECT_CONFIG_FILE}
     @ONLY
 )
+
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+
+## CATKIN install
+install(DIRECTORY single_include/nlohmann/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+   FILES_MATCHING PATTERN "*.h*"
+)
+
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+##
 
 if(JSON_Install)
     install(
