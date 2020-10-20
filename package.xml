@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>nlohmann_json</name>
+  <name>json_nlohmann</name>
   <version>3.9.1</version>
   <description>
      JSON for Modern C++

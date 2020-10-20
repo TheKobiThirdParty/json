@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.1)
 ## PROJECT
 ## name and version
 ##
-project(nlohmann_json VERSION 3.9.1 LANGUAGES CXX)
+project(json_nlohmann VERSION 3.9.1 LANGUAGES CXX)
 
 ##
 ## INCLUDE
@@ -59,11 +59,6 @@ find_package(catkin REQUIRED)
 
 catkin_package(
   INCLUDE_DIRS single_include
-)
-
-include_directories(
-  single_include
-  ${catkin_INCLUDE_DIRS}
 )
 
 ##
